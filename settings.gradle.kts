@@ -1,2 +1,2 @@
 rootProject.name = "hexagonal-architecture-with-kotlin"
-include("app", "domain", "utilities")
+include("domain", "application", "app")

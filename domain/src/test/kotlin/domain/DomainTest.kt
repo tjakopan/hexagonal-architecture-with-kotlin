@@ -7,9 +7,13 @@ import domain.service.RouterService
 import domain.service.SwitchService
 import domain.vo.*
 import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.withClue
+import io.kotest.matchers.booleans.shouldBeTrue
+import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.throwable.shouldHaveMessage
+import io.kotest.matchers.types.shouldBeTypeOf
 import kotlin.test.Test
 
 class DomainTest {
@@ -107,7 +111,9 @@ class DomainTest {
 
     val actualId = coreRouter.removeRouter(edgeRouter)?.id
 
-    actualId shouldNotBe null
+    withClue("Actual id should be present") {
+      actualId shouldNotBe null
+    }
     actualId shouldBe expectedId
   }
 
@@ -135,10 +141,9 @@ class DomainTest {
 
     val removed = switch.removeNetworkFromSwitch(network)
 
-    val sizeAfter = switch.networks.size
     sizeBefore shouldBe 1
-    removed shouldBe true
-    sizeAfter shouldBe 0
+    removed.shouldBeTrue()
+    switch.networks.shouldBeEmpty()
   }
 
   @Test
@@ -151,8 +156,8 @@ class DomainTest {
     val coreRouters = RouterService.filterAndRetrieveRouters(routers, Router.typePredicate<CoreRouter>())
     val edgeRouters = RouterService.filterAndRetrieveRouters(routers, Router.typePredicate<EdgeRouter>())
 
-    coreRouters[0]::class shouldBe CoreRouter::class
-    edgeRouters[0]::class shouldBe EdgeRouter::class
+    coreRouters[0].shouldBeTypeOf<CoreRouter>()
+    edgeRouters[0].shouldBeTypeOf<EdgeRouter>()
   }
 
   @Test
@@ -230,7 +235,9 @@ class DomainTest {
 
     val actualId = RouterService.findById(routersOfCoreRouter, expectedId)?.id
 
-    actualId shouldNotBe null
+    withClue("Actual id should be present") {
+      actualId shouldNotBe null
+    }
     actualId shouldBe expectedId
   }
 
@@ -243,7 +250,9 @@ class DomainTest {
 
     val actualId = SwitchService.findById(switches, expectedId)?.id
 
-    actualId shouldNotBe null
+    withClue("Actual id should be present") {
+      actualId shouldNotBe null
+    }
     actualId shouldBe expectedId
   }
 }

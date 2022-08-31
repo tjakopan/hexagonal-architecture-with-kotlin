@@ -26,5 +26,7 @@ tasks.withType<KotlinCompile>() {
 }
 
 tasks.named<Test>("test") {
-  useJUnitPlatform()
+  useJUnitPlatform() {
+    systemProperty("junit.jupiter.testinstance.lifecycle.default", "per_class")
+  }
 }

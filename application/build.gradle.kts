@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-  implementation(project(":domain"))
+  api(project(":domain"))
 
   testImplementation(platform("io.cucumber:cucumber-bom:7.6.0"))
   testImplementation("io.cucumber:cucumber-java")

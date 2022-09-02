@@ -22,3 +22,12 @@ object RouterFactory {
       else -> throw IllegalArgumentException("Unknown router type $type.")
     }
 }
+
+inline fun <reified T : Router> RouterFactory.createRouter(
+  vendor: Vendor,
+  model: Model,
+  ip: IP,
+  location: Location,
+  id: Id? = null
+): T =
+  createRouter(vendor, model, ip, location, T::class, id)

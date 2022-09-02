@@ -13,6 +13,7 @@ import domain.vo.Vendor
 import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
+import io.kotest.matchers.maps.shouldContain
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 
@@ -38,11 +39,9 @@ class RouterAddEdgeToCore {
 
   @Then("I add an edge router to a core router")
   fun `add edge to core router`() {
-    val expectedEdgeId = edgeRouter.id
+    val newCoreRouter = useCase.addRouterToCoreRouter(edgeRouter, coreRouter)
 
-    val routerWithEdge = useCase.addRouterToCoreRouter(edgeRouter, coreRouter)
-
-    val actualEdgeId = routerWithEdge.routers[expectedEdgeId]?.id
-    actualEdgeId shouldBe expectedEdgeId
+    newCoreRouter.id shouldBe coreRouter.id
+    newCoreRouter.routers shouldContain (edgeRouter.id to edgeRouter)
   }
 }

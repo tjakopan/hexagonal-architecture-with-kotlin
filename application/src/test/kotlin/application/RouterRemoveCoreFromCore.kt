@@ -9,10 +9,9 @@ import domain.vo.*
 import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.kotest.assertions.withClue
 import io.kotest.matchers.maps.shouldBeEmpty
+import io.kotest.matchers.maps.shouldNotContainKey
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.mockk
 
@@ -52,13 +51,9 @@ class RouterRemoveCoreFromCore {
 
   @Then("I remove the core router from another core router")
   fun `core router is removed from core router`() {
-    val expectedId = anotherCoreRouter.id
+    val newCoreRouter = useCase.removeRouterFromCoreRouter(anotherCoreRouter, coreRouter)
 
-    val actualId = useCase.removeRouterFromCoreRouter(anotherCoreRouter, coreRouter)?.id
-
-    withClue("Actual id should be present") {
-      actualId shouldNotBe null
-    }
-    actualId shouldBe expectedId
+    newCoreRouter.id shouldBe coreRouter.id
+    newCoreRouter.routers shouldNotContainKey anotherCoreRouter.id
   }
 }

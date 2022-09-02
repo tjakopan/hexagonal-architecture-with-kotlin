@@ -1,6 +1,7 @@
 package application
 
 import application.ports.input.SwitchManagementInputPort
+import application.ports.output.SwitchManagementOutputPort
 import application.usecases.SwitchManagementUseCase
 import domain.entity.Switch
 import domain.vo.*
@@ -8,9 +9,11 @@ import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
 import io.kotest.matchers.booleans.shouldBeTrue
 import io.kotest.matchers.shouldBe
+import io.mockk.mockk
 
 class SwitchCreate {
-  private val useCase: SwitchManagementUseCase = SwitchManagementInputPort()
+  private val outputPort: SwitchManagementOutputPort = mockk(relaxed = true)
+  private val useCase: SwitchManagementUseCase = SwitchManagementInputPort(outputPort)
 
   private val location: Location =
     Location("Av Republica Argentina 3109", "Curitiba", "PR", 80610260, "Brazil", 10f, -10f)

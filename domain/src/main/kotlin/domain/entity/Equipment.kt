@@ -3,11 +3,11 @@ package domain.entity
 import domain.vo.*
 
 sealed class Equipment(
-  val id: Id,
-  val vendor: Vendor,
-  val model: Model,
-  val ip: IP,
-  val location: Location
+  open val id: Id,
+  open val vendor: Vendor,
+  open val model: Model,
+  open val ip: IP,
+  open val location: Location
 ) {
   companion object {
     fun vendorPredicate(vendor: Vendor): (Equipment) -> Boolean = { it.vendor == vendor }

@@ -5,20 +5,16 @@ import domain.entity.specification.NetworkAmountSpec
 import domain.entity.specification.NetworkAvailabilitySpec
 import domain.vo.*
 
-class Switch(
-  id: Id,
-  vendor: Vendor,
-  model: Model,
-  ip: IP,
-  location: Location,
+data class Switch(
+  override val id: Id,
+  override val vendor: Vendor,
+  override val model: Model,
+  override val ip: IP,
+  override val location: Location,
   val type: SwitchType,
-  networks: List<Network> = listOf()
+  val networks: List<Network> = listOf()
 ) : Equipment(id, vendor, model, ip, location) {
-  private val _networks: MutableList<Network> = networks.toMutableList()
-  val networks: List<Network>
-    get() = _networks
-
-  fun addNetworkToSwitch(network: Network): Boolean {
+  fun addNetworkToSwitch(network: Network): Switch {
     val availabilitySpec = NetworkAvailabilitySpec(network)
     val cidrSpec = CidrSpec()
     val amountSpec = NetworkAmountSpec()
@@ -26,13 +22,17 @@ class Switch(
     cidrSpec.check(network.cidr)
     amountSpec.check(this)
 
-    return _networks.add(network)
+    val newNetworks = networks + network
+    return this.copy(networks = newNetworks)
   }
 
-  fun removeNetworkFromSwitch(network: Network): Boolean = _networks.remove(network)
+  fun removeNetworkFromSwitch(network: Network): Switch {
+    val newNetworks = networks - network
+    return this.copy(networks = newNetworks)
+  }
 
   companion object {
-    fun networkProtocolPredicate(protocol: Protocol): (Network) -> Boolean = { it.address.protocol == protocol }
+    fun networkProtocolPredicate(protocol: Protocol): (Network) -> Boolean = { it.ip.protocol == protocol }
 
     fun typePredicate(type: SwitchType): (Switch) -> Boolean = { it.type == type }
   }

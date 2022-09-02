@@ -3,11 +3,11 @@ package application
 import application.ports.input.NetworkManagementInputPort
 import application.usecases.NetworkManagementUseCase
 import domain.entity.Switch
-import domain.service.NetworkService
 import domain.vo.*
 import io.cucumber.java.en.And
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
+import io.kotest.matchers.collections.shouldContain
 import io.kotest.matchers.shouldBe
 
 class NetworkAdd {
@@ -38,9 +38,9 @@ class NetworkAdd {
 
   @Then("I add the network to the switch")
   fun `i add the network to the switch`() {
-    useCase.addNetworkToSwitch(network, switch)
+    val newSwitch = useCase.addNetworkToSwitch(network, switch)
 
-    val addedNetworkName = NetworkService.findNetwork(switch.networks, Network.namePredicate("Finance"))?.name
-    addedNetworkName shouldBe "Finance"
+    newSwitch.id shouldBe switch.id
+    newSwitch.networks shouldContain network
   }
 }

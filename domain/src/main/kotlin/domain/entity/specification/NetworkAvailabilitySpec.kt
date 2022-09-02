@@ -11,12 +11,12 @@ class NetworkAvailabilitySpec private constructor(
   private val name: String,
   private val cidr: Int
 ) : AbstractSpecification<Switch>() {
-  constructor(network: Network) : this(network.address, network.name, network.cidr)
+  constructor(network: Network) : this(network.ip, network.name, network.cidr)
 
   override fun isSatisfiedBy(t: Switch): Boolean = isNetworkAvailable(t)
 
   private fun isNetworkAvailable(switch: Switch): Boolean =
-    switch.networks.none { it.address == address && it.name == name && it.cidr == cidr }
+    switch.networks.none { it.ip == address && it.name == name && it.cidr == cidr }
 
   override fun check(t: Switch) = check(t) { "This network already exists." }
 }

@@ -5,35 +5,31 @@ import domain.entity.specification.EmptyNetworkSpec
 import domain.entity.specification.SameCountrySpec
 import domain.vo.*
 
-class EdgeRouter(
-  id: Id,
-  vendor: Vendor,
-  model: Model,
-  ip: IP,
-  location: Location,
-  switches: Map<Id, Switch> = mapOf()
+data class EdgeRouter(
+  override val id: Id,
+  override val vendor: Vendor,
+  override val model: Model,
+  override val ip: IP,
+  override val location: Location,
+  val switches: Map<Id, Switch> = mapOf()
 ) : Router(id, vendor, model, ip, location) {
-  private val _switches: MutableMap<Id, Switch> = switches.toMutableMap()
-  val switches: Map<Id, Switch>
-    get() = _switches
-
-  fun addSwitch(switch: Switch) {
+  fun addSwitch(switch: Switch): EdgeRouter {
     val sameCountrySpec = SameCountrySpec(this)
     val diffIpSpec = DifferentIpSpec(this)
     sameCountrySpec.check(switch)
     diffIpSpec.check(switch)
 
-    _switches[switch.id] = switch
+    val newSwitches = switches + (switch.id to switch)
+
+    return copy(switches = newSwitches)
   }
 
-  fun removeSwitch(switch: Switch): Switch? {
+  fun removeSwitch(switch: Switch): EdgeRouter {
     val emptyNetworkSpec = EmptyNetworkSpec()
     emptyNetworkSpec.check(switch)
 
-    return _switches.remove(switch.id)
-  }
+    val newSwitches = switches - switch.id
 
-  override fun toString(): String {
-    return "EdgeRouter(switches=$switches)"
+    return copy(switches = newSwitches)
   }
 }

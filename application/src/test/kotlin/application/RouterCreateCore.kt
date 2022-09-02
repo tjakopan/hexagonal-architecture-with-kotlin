@@ -24,7 +24,7 @@ class RouterCreateCore {
   private lateinit var router: CoreRouter
 
   @Given("I provide all required data to create a core router")
-  fun `create core router`() {
+  fun `i provide all required data to create a core router`() {
     router = useCase.createRouter(Vendor.CISCO, Model.XYZ0001, IP("20.0.0.1"), location)
   }
 

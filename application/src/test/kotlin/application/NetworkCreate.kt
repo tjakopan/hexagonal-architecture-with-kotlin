@@ -22,7 +22,7 @@ class NetworkCreate {
   @Then("A new network is created")
   fun `a new network is created`() {
     this::network.isInitialized.shouldBeTrue()
-    network.address shouldBe IP("10.0.0.1")
+    network.ip shouldBe IP("10.0.0.1")
     network.name shouldBe "Finance"
     network.cidr shouldBe 8
   }

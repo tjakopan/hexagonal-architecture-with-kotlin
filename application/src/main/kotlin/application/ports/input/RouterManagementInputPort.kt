@@ -18,12 +18,14 @@ class RouterManagementInputPort(private val outputPort: RouterManagementOutputPo
   ): T =
     RouterFactory.createRouter(vendor, model, ip, location, type)
 
+  override fun removeRouter(id: Id) = outputPort.removeRouter(id)
+
   override fun addRouterToCoreRouter(router: Router, coreRouter: CoreRouter): CoreRouter = coreRouter.addRouter(router)
 
-  override fun removeRouterFromCoreRouter(router: Router, coreRouter: CoreRouter): Router? =
+  override fun removeRouterFromCoreRouter(router: Router, coreRouter: CoreRouter): CoreRouter =
     coreRouter.removeRouter(router)
 
   override fun retrieveRouter(id: Id): Router? = outputPort.retrieveRouter(id)
 
-  override fun persistRouter(router: Router): Router = outputPort.persistRouter(router)
+  override fun persistRouter(router: Router) = outputPort.persistRouter(router)
 }

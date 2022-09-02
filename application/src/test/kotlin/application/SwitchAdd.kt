@@ -1,18 +1,19 @@
 package application
 
 import application.ports.input.SwitchManagementInputPort
+import application.ports.output.SwitchManagementOutputPort
 import application.usecases.SwitchManagementUseCase
 import domain.entity.EdgeRouter
 import domain.entity.Switch
 import domain.vo.*
 import io.cucumber.java.en.Given
 import io.cucumber.java.en.Then
-import io.kotest.assertions.withClue
-import io.kotest.matchers.nulls.shouldNotBeNull
-import io.kotest.matchers.shouldBe
+import io.kotest.matchers.maps.shouldContain
+import io.mockk.mockk
 
 class SwitchAdd {
-  private val useCase: SwitchManagementUseCase = SwitchManagementInputPort()
+  private val outputPort: SwitchManagementOutputPort = mockk(relaxed = true)
+  private val useCase: SwitchManagementUseCase = SwitchManagementInputPort(outputPort)
 
   private val location: Location =
     Location("Av Republica Argentina 3109", "Curitiba", "PR", 80610260, "Brazil", 10f, -10f)
@@ -37,10 +38,6 @@ class SwitchAdd {
   fun `i add the switch to the edge router`() {
     val router = useCase.addSwitchToEdgeRouter(switch, edgeRouter)
 
-    val actualSwitchId = router.switches[Id("f8c3de3d-1fea-4d7c-a8b0-29f63c4c3490")]?.id
-    withClue("Actual switch id should be present") {
-      actualSwitchId.shouldNotBeNull()
-    }
-    actualSwitchId shouldBe switch.id
+    router.switches shouldContain (switch.id to switch)
   }
 }

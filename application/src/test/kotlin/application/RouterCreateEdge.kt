@@ -24,7 +24,7 @@ class RouterCreateEdge {
   private lateinit var router: EdgeRouter
 
   @Given("I provide all required data to create an edge router")
-  fun `create edge router`() {
+  fun `I provide all required data to create an edge router`() {
     router = useCase.createRouter(Vendor.HP, Model.XYZ0004, IP("30.0.0.1"), location)
   }
 

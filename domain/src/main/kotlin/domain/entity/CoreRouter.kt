@@ -6,40 +6,35 @@ import domain.entity.specification.EmptySwitchSpec
 import domain.entity.specification.SameCountrySpec
 import domain.vo.*
 
-class CoreRouter(
-  id: Id,
-  vendor: Vendor,
-  model: Model,
-  ip: IP,
-  location: Location,
-  routers: Map<Id, Router> = mapOf()
+data class CoreRouter(
+  override val id: Id,
+  override val vendor: Vendor,
+  override val model: Model,
+  override val ip: IP,
+  override val location: Location,
+  val routers: Map<Id, Router> = mapOf()
 ) : Router(id, vendor, model, ip, location) {
-  private val _routers: MutableMap<Id, Router> = routers.toMutableMap()
-  val routers: Map<Id, Router>
-    get() = _routers
-
   fun addRouter(router: Router): CoreRouter {
     val sameCountrySpec = SameCountrySpec(this)
     val diffIpSpec = DifferentIpSpec(this)
     sameCountrySpec.check(router)
     diffIpSpec.check(router)
 
-    _routers[router.id] = router
+    val newRouters = routers + (router.id to router)
 
-    return this
+    return copy(routers = newRouters)
   }
 
-  fun removeRouter(router: Router): Router? {
+  fun removeRouter(router: Router): CoreRouter {
     val emptyRouterSpec = EmptyRouterSpec()
     val emptySwitchSpec = EmptySwitchSpec()
     when (router) {
       is CoreRouter -> emptyRouterSpec.check(router)
       is EdgeRouter -> emptySwitchSpec.check(router)
     }
-    return _routers.remove(router.id)
-  }
 
-  override fun toString(): String {
-    return "CoreRouter(routers=$routers)"
+    val newRouters = routers - router.id
+
+    return copy(routers = newRouters)
   }
 }

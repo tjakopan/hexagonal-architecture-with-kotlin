@@ -1,8 +1,8 @@
 package domain.entity
 
-import domain.entity.specification.DifferentIpSpec
-import domain.entity.specification.EmptyNetworkSpec
-import domain.entity.specification.SameCountrySpec
+import domain.specification.DifferentIpSpec
+import domain.specification.EmptyNetworkSpec
+import domain.specification.SameCountrySpec
 import domain.vo.*
 
 data class EdgeRouter(

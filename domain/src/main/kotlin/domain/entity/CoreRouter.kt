@@ -1,9 +1,9 @@
 package domain.entity
 
-import domain.entity.specification.DifferentIpSpec
-import domain.entity.specification.EmptyRouterSpec
-import domain.entity.specification.EmptySwitchSpec
-import domain.entity.specification.SameCountrySpec
+import domain.specification.DifferentIpSpec
+import domain.specification.EmptyRouterSpec
+import domain.specification.EmptySwitchSpec
+import domain.specification.SameCountrySpec
 import domain.vo.*
 
 data class CoreRouter(

@@ -1,7 +1,7 @@
-package domain.entity.specification
+package domain.specification
 
-import domain.entity.specification.shared.AbstractSpecification
-import domain.entity.specification.shared.check
+import domain.specification.shared.AbstractSpecification
+import domain.specification.shared.check
 
 const val MINIMUM_ALLOWED_CIDR: Int = 8
 

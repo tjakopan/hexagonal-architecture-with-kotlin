@@ -1,4 +1,4 @@
-package domain.entity.specification.shared
+package domain.specification.shared
 
 import domain.exception.GenericSpecificationException
 

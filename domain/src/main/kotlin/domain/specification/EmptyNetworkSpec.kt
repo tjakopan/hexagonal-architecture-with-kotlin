@@ -1,8 +1,8 @@
-package domain.entity.specification
+package domain.specification
 
 import domain.entity.Switch
-import domain.entity.specification.shared.AbstractSpecification
-import domain.entity.specification.shared.check
+import domain.specification.shared.AbstractSpecification
+import domain.specification.shared.check
 
 class EmptyNetworkSpec : AbstractSpecification<Switch>() {
   override fun isSatisfiedBy(t: Switch): Boolean = t.networks.isEmpty()

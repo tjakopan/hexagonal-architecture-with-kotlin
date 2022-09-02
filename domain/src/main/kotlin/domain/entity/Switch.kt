@@ -1,8 +1,8 @@
 package domain.entity
 
-import domain.entity.specification.CidrSpec
-import domain.entity.specification.NetworkAmountSpec
-import domain.entity.specification.NetworkAvailabilitySpec
+import domain.specification.CidrSpec
+import domain.specification.NetworkAmountSpec
+import domain.specification.NetworkAvailabilitySpec
 import domain.vo.*
 
 data class Switch(

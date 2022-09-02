@@ -1,8 +1,8 @@
-package domain.entity.specification
+package domain.specification
 
 import domain.entity.CoreRouter
-import domain.entity.specification.shared.AbstractSpecification
-import domain.entity.specification.shared.check
+import domain.specification.shared.AbstractSpecification
+import domain.specification.shared.check
 
 class EmptyRouterSpec : AbstractSpecification<CoreRouter>() {
   override fun isSatisfiedBy(t: CoreRouter): Boolean = t.routers.isEmpty()

@@ -1,8 +1,8 @@
-package domain.entity.specification
+package domain.specification
 
 import domain.entity.Equipment
-import domain.entity.specification.shared.AbstractSpecification
-import domain.entity.specification.shared.check
+import domain.specification.shared.AbstractSpecification
+import domain.specification.shared.check
 
 class DifferentIpSpec(private val equipment: Equipment) : AbstractSpecification<Equipment>() {
   override fun isSatisfiedBy(t: Equipment): Boolean = equipment.ip != t.ip

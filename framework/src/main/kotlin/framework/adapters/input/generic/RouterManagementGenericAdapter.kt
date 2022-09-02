@@ -15,11 +15,8 @@ class RouterManagementGenericAdapter(
 
   fun removeRouter(id: Id) = useCase.removeRouter(id)
 
-  fun <T : Router> createRouter(vendor: Vendor, model: Model, ip: IP, location: Location, type: KClass<T>): Router {
-    val router = useCase.createRouter(vendor, model, ip, location, type)
-    useCase.persistRouter(router)
-    return router
-  }
+  fun <T : Router> createRouter(vendor: Vendor, model: Model, ip: IP, location: Location, type: KClass<T>): Router =
+    useCase.createRouter(vendor, model, ip, location, type)
 
   fun addRouterToCoreRouter(routerId: Id, coreRouterId: Id): CoreRouter {
     val router =

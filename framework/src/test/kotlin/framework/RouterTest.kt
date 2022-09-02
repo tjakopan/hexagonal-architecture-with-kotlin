@@ -1,5 +1,6 @@
 package framework
 
+import domain.entity.CoreRouter
 import domain.entity.EdgeRouter
 import domain.vo.*
 import framework.adapters.input.generic.RouterManagementGenericAdapter
@@ -29,10 +30,14 @@ class RouterTest {
 
   @Test
   fun `create router`() {
-    val router =
-      routerManagementGenericAdapter.createRouter<EdgeRouter>(Vendor.DLINK, Model.XYZ0001, IP("40.0.0.1"), location)
+    val routerId =
+      routerManagementGenericAdapter.createRouter<EdgeRouter>(Vendor.DLINK, Model.XYZ0001, IP("40.0.0.1"), location).id
 
-    router.vendor shouldBe Vendor.DLINK
+    val router = routerManagementGenericAdapter.retrieveRouter(routerId)
+    withClue("Router should be present") {
+      router.shouldNotBeNull()
+    }
+    router!!.vendor shouldBe Vendor.DLINK
     router.model shouldBe Model.XYZ0001
     router.ip.address shouldBe "40.0.0.1"
     router.location shouldBe location
@@ -44,8 +49,9 @@ class RouterTest {
     val routerId = Id("b832ef4f-f894-4194-8feb-a99c2cd4be0b")
     val coreRouterId = Id("b832ef4f-f894-4194-8feb-a99c2cd4be0c")
 
-    val coreRouter = routerManagementGenericAdapter.addRouterToCoreRouter(routerId, coreRouterId)
+    routerManagementGenericAdapter.addRouterToCoreRouter(routerId, coreRouterId)
 
+    val coreRouter = routerManagementGenericAdapter.retrieveRouter(coreRouterId) as CoreRouter
     val router = coreRouter.routers[routerId]
     withClue("Router should be present") {
       router.shouldNotBeNull()
@@ -57,8 +63,9 @@ class RouterTest {
     val routerId = Id("b832ef4f-f894-4194-8feb-a99c2cd4be0a")
     val coreRouterId = Id("b832ef4f-f894-4194-8feb-a99c2cd4be0c")
 
-    val coreRouter = routerManagementGenericAdapter.removeRouterFromCoreRouter(routerId, coreRouterId)
+    routerManagementGenericAdapter.removeRouterFromCoreRouter(routerId, coreRouterId)
 
+    val coreRouter = routerManagementGenericAdapter.retrieveRouter(coreRouterId) as CoreRouter
     coreRouter.routers[routerId].shouldBeNull()
   }
 

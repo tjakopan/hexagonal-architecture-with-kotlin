@@ -15,15 +15,25 @@ class RouterManagementInputPort(private val outputPort: RouterManagementOutputPo
     ip: IP,
     location: Location,
     type: KClass<T>
-  ): T =
-    RouterFactory.createRouter(vendor, model, ip, location, type)
+  ): T {
+    val router = RouterFactory.createRouter(vendor, model, ip, location, type)
+    persistRouter(router)
+    return router
+  }
 
   override fun removeRouter(id: Id) = outputPort.removeRouter(id)
 
-  override fun addRouterToCoreRouter(router: Router, coreRouter: CoreRouter): CoreRouter = coreRouter.addRouter(router)
+  override fun addRouterToCoreRouter(router: Router, coreRouter: CoreRouter): CoreRouter {
+    val newCoreRouter = coreRouter.addRouter(router)
+    persistRouter(newCoreRouter)
+    return newCoreRouter
+  }
 
-  override fun removeRouterFromCoreRouter(router: Router, coreRouter: CoreRouter): CoreRouter =
-    coreRouter.removeRouter(router)
+  override fun removeRouterFromCoreRouter(router: Router, coreRouter: CoreRouter): CoreRouter {
+    val newCoreRouter = coreRouter.removeRouter(router)
+    persistRouter(newCoreRouter)
+    return newCoreRouter
+  }
 
   override fun retrieveRouter(id: Id): Router? = outputPort.retrieveRouter(id)
 

@@ -4,7 +4,7 @@ import application.ports.output.RouterManagementOutputPort
 import application.usecases.RouterManagementUseCase
 import domain.entity.CoreRouter
 import domain.entity.Router
-import domain.factory.RouterFactory
+import domain.entity.factory.RouterFactory
 import domain.vo.*
 import kotlin.reflect.KClass
 

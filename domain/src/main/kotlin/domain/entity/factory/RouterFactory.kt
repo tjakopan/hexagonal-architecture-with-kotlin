@@ -1,4 +1,4 @@
-package domain.factory
+package domain.entity.factory
 
 import domain.entity.CoreRouter
 import domain.entity.EdgeRouter

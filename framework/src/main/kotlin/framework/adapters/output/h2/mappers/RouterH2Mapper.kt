@@ -4,8 +4,8 @@ import domain.entity.CoreRouter
 import domain.entity.EdgeRouter
 import domain.entity.Router
 import domain.entity.Switch
-import domain.factory.RouterFactory
-import domain.factory.createRouter
+import domain.entity.factory.RouterFactory
+import domain.entity.factory.createRouter
 import domain.vo.*
 import framework.adapters.output.h2.data.*
 import java.util.*
